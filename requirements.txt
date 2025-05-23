@@ -3,3 +3,6 @@ openai
 tiktoken
 python-dotenv
 streamlit
+groq
+requests
+langchain-community

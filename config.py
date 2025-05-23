@@ -1,15 +1,22 @@
+from configparser import ConfigParser, ExtendedInterpolation
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Lê o arquivo config.ini (deve estar no mesmo diretório)
+parser = ConfigParser(interpolation=ExtendedInterpolation())
+parser.read(os.path.join(os.path.dirname(__file__), 'config.ini'))
 
-PROVIDER = os.getenv("PROVIDER", "openai").lower()
+# Provider: "groq" ou "openai"
+PROVIDER = parser.get('DEFAULT', 'provider').lower()
 
-if PROVIDER == "groq":
-    API_KEY = os.getenv("GROQ_API_KEY")
-    API_BASE = "https://api.groq.com/openai/v1"
-    MODEL_NAME = "mixtral-8x7b-32768"
+if PROVIDER == 'groq':
+    API_KEY = parser.get('DEFAULT', 'groq_api_key')
+    API_BASE = 'https://api.groq.com/openai/v1'
+    MODEL_NAME = 'llama3-8b-8192'
 else:
-    API_KEY = os.getenv("OPENAI_API_KEY")
-    API_BASE = "https://api.openai.com/v1"
-    MODEL_NAME = "gpt-3.5-turbo"
+    API_KEY = parser.get('DEFAULT', 'openai_api_key')
+    API_BASE = 'https://api.openai.com/v1'
+    MODEL_NAME = 'gpt-3.5-turbo'
+
+# Optional: exibir para debug
+print(f"⚙️ Provider: {PROVIDER}")
+print(f"⚙️ Model:    {MODEL_NAME}")

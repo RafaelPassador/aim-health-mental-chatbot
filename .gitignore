@@ -1,2 +1,4 @@
 #ignore env
-.env
+env
+config.ini
+__pycache__
